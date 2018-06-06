@@ -3,15 +3,25 @@
 /**
  * Module dependencies.
  */
-import connect from './databases';
-import express from './express';
+import initExpressApp from './express';
+import connectDB, {disconnectDB} from './databases';
 
-
- function init(callback) {
-    connect(function(err, db) {
-        const app = express(db);
-        if (callback) callback(app, db);
+const start =(callback) => {
+    connectDB(function(err) {
+        if(err) {
+            console.log("Error in connecting db", err);
+        } else {
+            const app = initExpressApp();
+            if (callback) callback(app);
+        }
     });
 }
 
-export default init;
+export const stop = (callback) => {
+    disconnectDB(() => {
+      console.log("DB disconnected");
+      callback();
+    });
+}
+
+export default start;

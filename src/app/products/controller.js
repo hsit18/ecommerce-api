@@ -3,43 +3,49 @@
 /**
  * Module dependencies.
  */
-import ProductModel from './model';
+import ProductsModel from './model';
+import CONSTANTS from './../../config/constants';
 
 class ProductsController {
-    
+
     getProduct(req, res, next) {
-        try{
-			ProductModel.find({}, function(err, response){
-				if(err){ 
-					console.log(err);
-					res.send("error is fetching products....");
-				}
-				else { 
-					if(response.length > 0){
-						res.send(response)
-					}else{
-                        res.send({'errmsg': 'No brands found.'});
-					} 
+        try {
+			ProductsModel.find({}, (err, response) => {
+				if(err) { 
+                    next({
+                        errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
+                    });
+				} else { 
+					res.send({error: false, products: response});	
 				}
 			});
-		} catch(e){
-			res.send("error is fetching products....");
+		} catch(e) {
+			next({
+                errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
+            });
 		}
     }
 
     addProduct(req, res, next) {
-        console.log("addProduct -------- ");
+        const productObj = new ProductsModel();
         const body = req.body;
 
-        var productObj = new ProductModel();
         productObj.sku = body.sku;
+        productObj.name = body.name;
+        productObj.categoryId = body.categoryId;
+        productObj.brandId = body.brandId;
+        productObj.price = body.price;
+        productObj.productType = body.productType;
+        productObj.numberOfStrings = body.numberOfStrings;
+        productObj.soldDate = body.soldDate;
 
-        
-        productObj.save(function(err) {
+        productObj.save((err) => {
             if (err) {
-                next(err);
+                next({
+                    errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
+                });
             } else {
-            res.send('success');
+                res.send({error: false, message: "Product Added Successfully."});
             }
         });
     }

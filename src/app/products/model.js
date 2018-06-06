@@ -15,38 +15,33 @@ const productsSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    // name: {
-    //     type: String,
-    //     required: true
-    // },
-    // email: {
-    //     type: String,
-    //     required: true
-    // },
-    // categoryId: {
-    //     type: String,
-    //     required: true
-    // },
-    // BrandId: {
-    //     type: String,
-    //     required: true
-    // },
-    // price: {
-    //     type: String,
-    //     required: true
-    // },
-    // productType: {
-    //     type: String,
-    //     required: true
-    // },
-    // numberOfStrings: {
-    //     type: String,
-    //     required: true
-    // },
-    // soldDate: {
-    //     type: String,
-    //     required: true
-    // },
+    name: {
+        type: String,
+        required: true
+    },
+    categoryId: {
+        type: String,
+        required: true
+    },
+    brandId: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    productType: {
+        type: Number,
+        required: true
+    },
+    numberOfStrings: {
+        type: Number,
+        required: true
+    },
+    soldDate: {
+        type: Date
+    },
 }, {
     timestamps: true
 });

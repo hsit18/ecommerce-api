@@ -1,12 +1,12 @@
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import express from 'express';
+import session from 'express-session';
 
 import CONSTANTS from './constants';
 
 const app = express();
 
-export default function() {
+const init = () => {
 	app.use(session({secret: 'ecommercesecretkey',saveUninitialized: true,resave: true}));
 
 	const allowCrossDomain = function(req, res, next) {
@@ -16,15 +16,13 @@ export default function() {
 	    next();
 	};
 	// app.use(express.static(config.rootPath + '/public'));
-	
 	// app.use('/uploads',  express.static(config.rootPath + '/uploads'));
+
 	app.use(bodyParser.json());
 	app.use(allowCrossDomain);
 	app.use(bodyParser.urlencoded({
 		extended: true
 	}));
-
-	console.log('Server port ...'+ CONSTANTS.PORT);
 
 	app.listen(CONSTANTS.PORT, function() {
 		console.log('Server listening on port ...'+ CONSTANTS.PORT);
@@ -32,4 +30,6 @@ export default function() {
 	
 	return app;
 }
+
+export default init;
 	
