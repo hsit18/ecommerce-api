@@ -6,5 +6,5 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-console.log("patth------", path.resolve(process.cwd(), '.env'));
-dotenv.config({path: path.resolve(process.cwd(), '.env')});
+console.log("patth------", path.join(__dirname, '.env'));
+dotenv.config({path: path.join(__dirname, '.env')});
