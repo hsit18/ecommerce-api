@@ -16,7 +16,7 @@ export default {
 
   APP_CONSTANT: {
     SCHEMA: {
-      USERS: 'users'
+      PRODUCTS: 'products'
     }
   },
 

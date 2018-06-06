@@ -1,30 +1,30 @@
 'use strict';
 
+/**
+ * Module dependencies.
+ */
+
 import mongoose from 'mongoose';
 import CONSTANTS from './constants';
 
-let dbHandler;
-
 mongoose.Promise = global.Promise;
 
-export function connect (callback) {
+const connect = (callback) => {
   console.log("URL ----   ", CONSTANTS.MONGOOSE_DB.URL);
-  dbHandler = mongoose.connect(CONSTANTS.MONGOOSE_DB.URL, function(err) {
+  mongoose.connect(CONSTANTS.MONGOOSE_DB.URL, function(err) {
       if (err) {
           if (callback) callback(err);
       } else {
           mongoose.set('debug', CONSTANTS.MONGOOSE_DB.DEBUG);
-          if (callback) callback(null, dbHandler);
+          if (callback) callback(null);
       }
   });
 };
 
-export function getDbHandler() {
-  return dbHandler;
-};
-
-export function disconnect(callback) {
+const disconnect = (callback) => {
   mongoose.disconnect(function(err) {
-	  callback(err, dbHandler);
+	  callback(err);
   });
 };
+
+export default connect;

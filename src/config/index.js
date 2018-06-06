@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-import {connect} from './databases';
+import connect from './databases';
 import express from './express';
 
 

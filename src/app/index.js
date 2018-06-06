@@ -3,15 +3,16 @@
 /**
  * Module dependencies.
  */
-
+import productRouter from './products/route';
 
 const serverInit = function(app) {
 	
-	app.all('*', function(req, res, next){
+	app.all('/api/*', function(req, res, next){
 		console.log('server setup testing......');
-		res.send('server setup testing......');
-	
+		next();
 	});
+
+	app.use('/api/product', productRouter);
 }
 
 
