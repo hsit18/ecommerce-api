@@ -8,7 +8,7 @@ import CONSTANTS from './../../config/constants';
 
 class ProductsController {
 
-    getProduct(req, res, next) {
+    getProducts(req, res, next) {
         try {
 			ProductsModel.find({}, (err, response) => {
 				if(err) { 

@@ -3,7 +3,6 @@
 /**
  * Module dependencies.
  */
-import path from 'path';
 import mongoose from 'mongoose';
 import CONSTANT from '../../config/constants';
 
@@ -13,18 +12,21 @@ import CONSTANT from '../../config/constants';
 const productsSchema = mongoose.Schema({
     sku: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     name: {
         type: String,
         required: true
     },
     categoryId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: CONSTANT.SCHEMA.CATEGORIES,
         required: true
     },
     brandId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: CONSTANT.SCHEMA.BRANDS,
         required: true
     },
     price: {
@@ -46,4 +48,4 @@ const productsSchema = mongoose.Schema({
     timestamps: true
 });
 
-export default mongoose.model(CONSTANT.APP_CONSTANT.SCHEMA.PRODUCTS, productsSchema);
+export default mongoose.model(CONSTANT.SCHEMA.PRODUCTS, productsSchema);

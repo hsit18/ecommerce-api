@@ -14,10 +14,11 @@ export default {
 
   SUPPORT_EMAILID: 'support@ecommerce.com',
 
-  APP_CONSTANT: {
-    SCHEMA: {
-      PRODUCTS: 'products'
-    }
+  SCHEMA: {
+    PRODUCTS: 'products',
+    CATEGORIES: 'categories',
+    BRANDS: 'brands',
+    ACCESSORIES: 'accessories'
   },
 
   DEFAULT_LANGUAGE: "en-us",

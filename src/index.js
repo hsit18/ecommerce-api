@@ -5,10 +5,10 @@
  */
 import './env';
 import start, {stop} from './config/index';
-import serverInit from './app/index';
+import appInit from './app/index';
 
 start(function(app, db) { 
-    serverInit(app, db);
+    appInit(app, db);
 
     process.on('uncaughtException', (err) => {
         console.error((new Date).toUTCString() + ' uncaughtException:', err.message);
@@ -23,6 +23,5 @@ start(function(app, db) {
           process.exit(0);
         });
     });
-  
 });
 
