@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "node bin/dev",
     "clean": "rm -rf dist && mkdir dist",
-    "babel-build": "./node_modules/.bin/babel src -d dist --presets env",
+    "babel-build": "./node_modules/.bin/babel -d ./dist ./src -s",
     "build": "npm run clean && npm run babel-build",
-    "start": "npm run build && node ./dist/index.js"
+    "start": "npm run build && node bin/prod"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,6 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-0": "^6.24.1"
+    "babel-register": "^6.26.0"
   }
 }

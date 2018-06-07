@@ -1,4 +1,10 @@
 {
-    "presets": ["env", "stage-0"],
-    "plugins": []
-}
+    "presets": [
+      ["env", {
+        "targets": {
+          "node": "current"
+        },
+        "debug": true
+      }]
+    ]
+  }
