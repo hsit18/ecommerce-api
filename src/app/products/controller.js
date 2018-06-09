@@ -46,12 +46,10 @@ class ProductsController {
     }
 
     updateProductSoldDate(req, res, next) {
-        console.log("productIDSS  ", req.body.productIds);
+        
         async.eachSeries(req.body.productIds || [], (productId, cb) => {
-            
-            ProductsModel.update({'_id': productId}, { $set: { soldDate: new Date } }, (err, response) => {
+            ProductsModel.update({'_id': productId, 'soldDate': {$exists: false}}, { $set: { soldDate: new Date } }, (err, response) => {
                 if(err) { 
-                    console.log(err);
                     cb(err);     
                 } else { 
                     cb(null, {error: false});	
@@ -59,11 +57,9 @@ class ProductsController {
             });
         }, (err) => {
             if(err) {
-                next({
-                    errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
-                });
+                next(err);
             } else {
-                res.send({error: false, message: "All products sold"});
+                res.send({error: false, message: "Products sold date added"});
             }
         });
     }

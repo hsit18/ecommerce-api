@@ -13,4 +13,6 @@ router.get('/', AccessoriesController.getAccessories);
 
 router.post('/', AccessoriesController.addAccessory);
 
+router.post('/buynow', AccessoriesController.updateAccessoriesQuantity);
+
 export default router;

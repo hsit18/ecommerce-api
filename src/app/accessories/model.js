@@ -24,10 +24,13 @@ const accessoriesSchema = mongoose.Schema({
     },
     quantity: {
         type: Number,
-        required: true
+        required: true,
+        default: 0,
+        min: 0
     },
     soldQuantity: {
         type: Number,
+        min: 0,
         default: 0
     }
 }, {

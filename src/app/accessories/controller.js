@@ -3,6 +3,8 @@
 /**
  * Module dependencies.
  */
+import async from 'async';
+
 import AccessoriesModel from './model';
 import CONSTANTS from './../../config/constants';
 
@@ -41,6 +43,25 @@ class AccessoriesController {
                 next(err);
             } else {
                 res.send({error: false, message: "Accessory Added Successfully."});
+            }
+        });
+    }
+
+    updateAccessoriesQuantity(req, res, next) {
+        async.eachSeries(req.body.accessoryIds || [], (accessoryId, cb) => {
+            AccessoriesModel.update({'_id': accessoryId, $where: "this.quantity > this.soldQuantity" }, { $inc: { soldQuantity: 1} }, (err, response) => {
+                if(err) { 
+                    console.log(err);
+                    cb(err);     
+                } else { 
+                    cb(null, {error: false});	
+                }
+            });
+        }, (err) => {
+            if(err) {
+                next(err);
+            } else {
+                res.send({error: false, message: "All accessories updated"});
             }
         });
     }
