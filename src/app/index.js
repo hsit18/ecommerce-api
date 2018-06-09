@@ -7,6 +7,8 @@ import errorHandler from '../config/errorHandler';
 
 import router from './v1Routes';
 
+const mongooseErrors = ['ValidationError', 'MongoError'];
+
 const appInit = (app) => {
 	
 	app.all('/api/*', function(req, res, next){
@@ -17,13 +19,21 @@ const appInit = (app) => {
 	app.use('/api/v1/', router);
 	
 	app.use((err, req, res, next) => {
-		console.log(err);
+		console.log(JSON.stringify(err));
 		if (!err) {
 			return next();
 		}
-		errorHandler.getFormattedError(req, res, err, function(errStatus, errorObj) {
-			res.status(errStatus).send(errorObj);
-		});
+
+		if (mongooseErrors.indexOf(err.name) > -1) {
+			errorHandler.getFormattedMongooseDatabaseErrors(err, (errStatus, errorObj) => {
+				res.status(errStatus).send(errorObj);
+			});
+		} else {
+			errorHandler.getFormattedError(req, res, err, function(errStatus, errorObj) {
+				res.status(errStatus).send(errorObj);
+			});
+		}
+		
 	});
 }
 

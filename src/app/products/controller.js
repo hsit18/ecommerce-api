@@ -3,27 +3,23 @@
 /**
  * Module dependencies.
  */
+import async from 'async';
+
 import ProductsModel from './model';
 import CONSTANTS from './../../config/constants';
 
 class ProductsController {
 
-    getProducts(req, res, next) {
-        try {
-			ProductsModel.find({}, (err, response) => {
-				if(err) { 
-                    next({
-                        errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
-                    });
-				} else { 
-					res.send({error: false, products: response});	
-				}
-			});
-		} catch(e) {
-			next({
-                errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
-            });
-		}
+    getProducts(req, res, next) {        
+        ProductsModel.find({}, (err, response) => {
+            if(err) { 
+                next({
+                    errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
+                });
+            } else { 
+                res.send({error: false, products: response});	
+            }
+        });
     }
 
     addProduct(req, res, next) {
@@ -32,6 +28,7 @@ class ProductsController {
 
         productObj.sku = body.sku;
         productObj.name = body.name;
+        productObj.description = body.description;
         productObj.categoryId = body.categoryId;
         productObj.brandId = body.brandId;
         productObj.price = body.price;
@@ -41,11 +38,32 @@ class ProductsController {
 
         productObj.save((err) => {
             if (err) {
+                next(err);
+            } else {
+                res.send({error: false, message: "Product Added Successfully."});
+            }
+        });
+    }
+
+    updateProductSoldDate(req, res, next) {
+        console.log("productIDSS  ", req.body.productIds);
+        async.eachSeries(req.body.productIds || [], (productId, cb) => {
+            
+            ProductsModel.update({'_id': productId}, { $set: { soldDate: new Date } }, (err, response) => {
+                if(err) { 
+                    console.log(err);
+                    cb(err);     
+                } else { 
+                    cb(null, {error: false});	
+                }
+            });
+        }, (err) => {
+            if(err) {
                 next({
                     errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
                 });
             } else {
-                res.send({error: false, message: "Product Added Successfully."});
+                res.send({error: false, message: "All products sold"});
             }
         });
     }

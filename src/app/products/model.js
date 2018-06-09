@@ -19,6 +19,9 @@ const productsSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+    },
     categoryId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: CONSTANT.SCHEMA.CATEGORIES,
@@ -28,6 +31,10 @@ const productsSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: CONSTANT.SCHEMA.BRANDS,
         required: true
+    },
+    images: {
+        type: Array,
+        default: []
     },
     price: {
         type: Number,
@@ -39,7 +46,7 @@ const productsSchema = mongoose.Schema({
     },
     numberOfStrings: {
         type: Number,
-        required: true
+        default: 0
     },
     soldDate: {
         type: Date

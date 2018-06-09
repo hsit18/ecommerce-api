@@ -38,9 +38,7 @@ class AccessoriesController {
         
         accessoryObj.save((err) => {
             if (err) {
-                next({
-                    errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
-                });
+                next(err);
             } else {
                 res.send({error: false, message: "Accessory Added Successfully."});
             }

@@ -13,4 +13,7 @@ router.get('/', ProductController.getProducts);
 
 router.post('/', ProductController.addProduct);
 
+router.post('/buynow', ProductController.updateProductSoldDate);
+
+
 export default router;
