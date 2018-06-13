@@ -32,9 +32,9 @@ class ProductsController {
         productObj.categoryId = body.categoryId;
         productObj.brandId = body.brandId;
         productObj.price = body.price;
-        productObj.productType = body.productType;
         productObj.numberOfStrings = body.numberOfStrings;
-        productObj.soldDate = body.soldDate;
+        productObj.rating = body.rating;
+        productObj.images = body.images;
 
         productObj.save((err) => {
             if (err) {

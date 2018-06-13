@@ -19,7 +19,6 @@ const appInit = (app) => {
 	app.use('/api/v1/', router);
 	
 	app.use((err, req, res, next) => {
-		console.log(JSON.stringify(err));
 		if (!err) {
 			return next();
 		}

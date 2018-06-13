@@ -14,6 +14,9 @@ const accessoriesSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+    },
     types: {
         type: Array,
         required: true
@@ -32,6 +35,10 @@ const accessoriesSchema = mongoose.Schema({
         type: Number,
         min: 0,
         default: 0
+    },
+    images: {
+        type: Array,
+        default: []
     }
 }, {
     timestamps: true

@@ -40,10 +40,6 @@ const productsSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    productType: {
-        type: Number,
-        required: true
-    },
     numberOfStrings: {
         type: Number,
         default: 0
@@ -51,6 +47,10 @@ const productsSchema = mongoose.Schema({
     soldDate: {
         type: Date
     },
+    rating: {
+        type: Number,
+        default: 0
+    }
 }, {
     timestamps: true
 });

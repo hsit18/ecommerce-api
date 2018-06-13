@@ -33,11 +33,13 @@ class AccessoriesController {
         const body = req.body;
 
         accessoryObj.name = body.name;
+        accessoryObj.description = body.description;
         accessoryObj.types = body.types;
         accessoryObj.price = body.price;
         accessoryObj.quantity = body.quantity;
         accessoryObj.soldQuantity = body.soldQuantity;
-        
+        accessoryObj.images = body.images;
+
         accessoryObj.save((err) => {
             if (err) {
                 next(err);
