@@ -10,16 +10,57 @@ import CONSTANTS from './../../config/constants';
 
 class ProductsController {
 
-    getProducts(req, res, next) {        
-        ProductsModel.find({}, (err, response) => {
+    getProducts(req, res, next) {      
+        const searchQuery = {};
+        
+        if(req.body.search) {
+            searchQuery['$or'] = [
+                {'name': { '$regex' : req.body.search, '$options' : 'ig' }},
+                {'sku': { '$regex' : req.body.search, '$options' : 'ig' }}
+            ];
+        }
+
+        if(req.body.brandIds && req.body.brandIds.length > 0) {
+            searchQuery.brandId = { '$in' : req.body.brandIds }
+        }
+
+        if(req.body.categoryIds && req.body.categoryIds.length > 0) {
+            searchQuery.categoryId = { '$in' : req.body.categoryIds }
+        }
+
+        if(req.body.numberOfStrings && req.body.numberOfStrings.length > 0) {
+            searchQuery.numberOfStrings = { '$in' : req.body.numberOfStrings }
+        }
+
+        ProductsModel
+            .find(searchQuery, '-__v -updatedAt')
+            .populate('brandId', '_id name')
+            .populate('categoryId', '_id name')
+            .exec( (err, response) => {
             if(err) { 
                 next({
                     errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
                 });
             } else { 
-                res.send({error: false, products: response});	
+                res.send({error: false, response});	
             }
         });
+    }
+
+    getProductById(req,res, next) {
+        if(req.params.id) {
+            ProductsModel.findById(req.params.id, '-__v -updatedAt', (err, response) => {
+                if(err) { 
+                    next({
+                        errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
+                    });
+                } else { 
+                    res.send({error: false, response});	
+                }  
+            });
+        } else {
+            next({errNum: CONSTANTS.ERROR_CODES.MISSING_INFO_IN_API});
+        }
     }
 
     addProduct(req, res, next) {

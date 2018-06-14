@@ -9,9 +9,11 @@ import ProductController from './controller';
 
 const router = express.Router();
 
-router.get('/', ProductController.getProducts);
+router.post('/', ProductController.getProducts);
 
-router.post('/', ProductController.addProduct);
+router.get('/:id', ProductController.getProductById);
+
+router.post('/add', ProductController.addProduct);
 
 router.post('/buynow', ProductController.updateProductSoldDate);
 

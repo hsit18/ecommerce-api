@@ -9,9 +9,11 @@ import AccessoriesController from './controller';
 
 const router = express.Router();
 
-router.get('/', AccessoriesController.getAccessories);
+router.post('/', AccessoriesController.getAccessories);
 
-router.post('/', AccessoriesController.addAccessory);
+router.get('/:id', AccessoriesController.getAccessoryById);
+
+router.post('/add', AccessoriesController.addAccessory);
 
 router.post('/buynow', AccessoriesController.updateAccessoriesQuantity);
 

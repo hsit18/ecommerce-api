@@ -11,21 +11,37 @@ import CONSTANTS from './../../config/constants';
 class AccessoriesController {
 
     getAccessories(req, res, next) {
-        try {
-			AccessoriesModel.find({}, (err, response) => {
-				if(err) { 
+        const searchQuery = {};
+    
+        if(req.body.search && req.body.search !== "") {
+            searchQuery.name = { '$regex' : req.body.search, '$options' : 'ig' };
+        }
+
+        AccessoriesModel.find(searchQuery, '-__v -updatedAt', (err, response) => {
+            if(err) { 
+                next({
+                    errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
+                });
+            } else { 
+                res.send({error: false, accessories: response});	
+            }
+        });
+    }
+
+    getAccessoryById(req, res, next) {
+        if(req.params.id) {
+            AccessoriesModel.findById(req.params.id, '-__v -updatedAt', (err, response) => {
+                if(err) { 
                     next({
                         errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
                     });
-				} else { 
-					res.send({error: false, accessories: response});	
-				}
-			});
-		} catch(e) {
-			next({
-                errNum: CONSTANTS.ERROR_CODES.UNEXPECTED_ERROR
+                } else { 
+                    res.send({error: false, response});	
+                }  
             });
-		}
+        } else {
+            next({errNum: CONSTANTS.ERROR_CODES.MISSING_INFO_IN_API});
+        }
     }
 
     addAccessory(req, res, next) {
