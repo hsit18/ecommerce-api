@@ -66,8 +66,8 @@ class AccessoriesController {
     }
 
     updateAccessoriesQuantity(req, res, next) {
-        async.eachSeries(req.body.accessoryIds || [], (accessoryId, cb) => {
-            AccessoriesModel.update({'_id': accessoryId, $where: "this.quantity > this.soldQuantity" }, { $inc: { soldQuantity: 1} }, (err, response) => {
+        async.eachSeries(req.body.accessories || [], (accessory, cb) => {
+            AccessoriesModel.update({'_id': accessory.id, $where: "this.quantity > this.soldQuantity" }, { $inc: { soldQuantity: accessory.quantity || 1} }, (err, response) => {
                 if(err) { 
                     console.log(err);
                     cb(err);     
