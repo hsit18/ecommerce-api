@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import session from 'express-session';
+import path from 'path';
 
 import CONSTANTS from './constants';
 
@@ -15,8 +16,9 @@ const init = () => {
 	    res.header('Access-Control-Allow-Headers', 'Content-Type');
 	    next();
 	};
-	// app.use(express.static(config.rootPath + '/public'));
-	// app.use('/uploads',  express.static(config.rootPath + '/uploads'));
+
+	app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+	app.use('/images', express.static(path.resolve('./public/images')));
 
 	app.use(bodyParser.json());
 	app.use(allowCrossDomain);
