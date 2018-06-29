@@ -1,7 +1,5 @@
 import bodyParser from 'body-parser';
 import express from 'express';
-import graphqlHTTP from 'express-graphql';
-import {graphql} from 'graphql'
 import {graphqlExpress, graphiqlExpress} from 'apollo-server-express';
 import session from 'express-session';
 import path from 'path';
