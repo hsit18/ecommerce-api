@@ -1,9 +1,16 @@
 import bodyParser from 'body-parser';
 import express from 'express';
+import {graphqlExpress, graphiqlExpress} from 'apollo-server-express';
 import session from 'express-session';
 import path from 'path';
 
+import schema from '../app/schema';
 import CONSTANTS from './constants';
+
+const user = {
+	id: 1,
+	name: 'harry'
+};
 
 const app = express();
 
@@ -25,6 +32,18 @@ const init = () => {
 	app.use(bodyParser.urlencoded({
 		extended: true
 	}));
+
+	app.use('/graphql', graphqlExpress( (req) => {
+		return {
+			schema,
+			tracing: true,
+			cacheControl: true,
+			context: {
+			  user
+			},
+		  };
+	}));
+	app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 	app.listen(CONSTANTS.PORT, function() {
 		console.log('Server listening on port ...'+ CONSTANTS.PORT);
