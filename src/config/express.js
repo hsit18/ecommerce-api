@@ -9,6 +9,11 @@ import path from 'path';
 import schema from '../app/schema';
 import CONSTANTS from './constants';
 
+const user = {
+	id: 1,
+	name: 'harry'
+};
+
 const app = express();
 
 const init = () => {
@@ -30,17 +35,17 @@ const init = () => {
 		extended: true
 	}));
 
-	app.use('/graphql', graphqlHTTP (req => ({
-		schema,
-		graphiql: true
-	})))
-
-	// app.use('/graphql', graphqlExpress({ schema }));
-	// app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
-
-
-	// app.use('/graphql', graphqlExpress({ schema }));
-	// app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+	app.use('/graphql', graphqlExpress( (req) => {
+		return {
+			schema,
+			tracing: true,
+			cacheControl: true,
+			context: {
+			  user
+			},
+		  };
+	}));
+	app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 	app.listen(CONSTANTS.PORT, function() {
 		console.log('Server listening on port ...'+ CONSTANTS.PORT);

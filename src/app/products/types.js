@@ -25,9 +25,16 @@ const ProductType = `
     rating: Int!
   }
 
+  input FilterInput {
+    search: String,
+    categoryIds: [ID]
+    brandIds: [ID]
+    numberOfStrings: [Int]
+  }
+
   extend type Query {
     product(id: ID): Product,
-    products: [Product]
+    products(filter: FilterInput, page_size:Int, page_num:Int): [Product]
   }
   
   extend type Mutation {

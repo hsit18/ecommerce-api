@@ -23,7 +23,8 @@ const typeDefs = [testSchema, categoriesTypes, brandsTypes, productsTypes];
 console.log("typeDefs::   ", typeDefs);
 const testResolvers = {
   Query: {
-    hi() {
+    hi(root, args, context) {
+      console.log("User:   ", context.user);
       return "Hello Harry...";
     }
   },
