@@ -19,9 +19,13 @@ const init = () => {
 
 	const allowCrossDomain = function(req, res, next) {
 	    res.header('Access-Control-Allow-Origin', '*');
-	    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-	    res.header('Access-Control-Allow-Headers', 'Content-Type');
-	    next();
+	    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+	    res.header('Access-Control-Allow-Headers', 'Origin, Accept, Content-Type, Authorization, Content-Length, X-Requested-With, token');
+	    if (req.method === 'OPTIONS') {
+			res.sendStatus(200);
+		} else {
+			next();
+		}
 	};
 
 	app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
@@ -33,15 +37,13 @@ const init = () => {
 		extended: true
 	}));
 
-	app.use('/graphql', graphqlExpress( (req) => {
+	app.use('/graphql', allowCrossDomain, graphqlExpress( (req, res, next) => {
 		return {
 			schema,
-			tracing: true,
-			cacheControl: true,
 			context: {
 			  user
 			},
-		  };
+		};
 	}));
 	app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
